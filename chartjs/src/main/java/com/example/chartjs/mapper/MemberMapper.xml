@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chartjs.mapper.MemberMapper">
+	<select id="selectByIdAndPassword" resultType="com.example.chartjs.dto.Member">
+        SELECT * FROM member
+        WHERE id = #{id}
+        AND password = #{password}
+    </select>
+        
+    <insert id="insertLoginHistory">
+        INSERT INTO login_history (id, logindate)
+        VALUES (#{id}, #{logindate})
+    </insert>
+    
+    <update id="deactivateDormantMembers">
+		  UPDATE member
+		  SET active = 'OFF'
+		  WHERE id IN (
+		    SELECT id
+		    FROM login_history
+		    GROUP BY id
+		    HAVING MAX(logindate) &lt; #{tenMinutesAgo}
+		  )
+	</update>
+</mapper>
