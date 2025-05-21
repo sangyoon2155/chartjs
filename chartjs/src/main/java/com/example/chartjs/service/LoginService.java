@@ -31,4 +31,14 @@ public class LoginService {
 
         return member; // 로그인 성공한 회원 반환
     }
+    
+    private void insertLoginHistory(String id) {
+        LocalDateTime now = LocalDateTime.now();
+        LoginHistory loginHistory = new LoginHistory();
+        loginHistory.setId(id);
+        loginHistory.setLogindate(now); // 현재 로그인 시간
+
+        // login_history 테이블에 삽입
+        loginMapper.insertLoginHistory(loginHistory);
+    }
 }

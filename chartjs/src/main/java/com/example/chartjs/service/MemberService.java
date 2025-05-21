@@ -18,4 +18,8 @@ public class MemberService {
 	    LocalDateTime tenMinutesAgo = LocalDateTime.now().minusMinutes(10);
 	    return memberMapper.deactivateDormantMembers(tenMinutesAgo);
 	}
+	
+	public void updateActiveStatus(String id, String active) {
+	    memberMapper.updateActiveStatus(id, active);
+	}
 }

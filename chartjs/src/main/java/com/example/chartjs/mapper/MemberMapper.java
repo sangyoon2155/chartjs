@@ -16,4 +16,6 @@ public interface MemberMapper {
 	    @Param("loginDate") LocalDateTime loginDate);
 	
 	int deactivateDormantMembers(@Param("tenMinutesAgo") LocalDateTime tenMinutesAgo);
+	
+	void updateActiveStatus(@Param("id") String id, @Param("active") String active);
 }

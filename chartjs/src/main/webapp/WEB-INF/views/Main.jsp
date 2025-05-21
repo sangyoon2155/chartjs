@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h1>로그인 성공</h1>
+	<a href="/changePw">비밀번호 변경</a>
 </body>
 </html>

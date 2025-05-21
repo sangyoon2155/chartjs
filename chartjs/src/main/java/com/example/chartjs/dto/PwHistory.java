@@ -5,10 +5,9 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class LoginHistory {
+public class PwHistory {
 	private Integer no;
 	private String id;
-	private LocalDateTime logindate;
-	
-	
+	private String pw;
+	private LocalDateTime changeDate;
 }

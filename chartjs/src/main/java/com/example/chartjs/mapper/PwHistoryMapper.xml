@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.chartjs.mapper.PwHistoryMapper">
+
+    <!-- 1. 패스워드 중복 확인 -->
+    <select id="isDuplicatePassword" resultType="int">
+        SELECT COUNT(*) FROM pw_history
+        WHERE id = #{id} AND pw = #{pw}
+    </select>
+
+    <!-- 2. 패스워드 변경 이력 추가 -->
+    <insert id="insertPwHistory">
+        INSERT INTO pw_history (id, pw, change_date)
+        VALUES (#{id}, #{pw}, NOW())
+    </insert>
+
+    <!-- 3. 아이디 별 최근 이력 5개를 제외한 나머지 삭제 -->
+    <delete id="deleteOldHistories">
+        DELETE FROM pw_history
+        WHERE no NOT IN (
+            SELECT no FROM (
+                SELECT no FROM pw_history
+                WHERE id = #{id}
+                ORDER BY change_date DESC
+                LIMIT 5
+            ) as keep
+        ) AND id = #{id}
+    </delete>
+
+    <!-- (스케줄링용) 모든 사용자 ID 목록 -->
+    <select id="getAllUserIds" resultType="string">
+        SELECT DISTINCT id FROM pw_history
+    </select>
+    
+    <update id="updateMemberPassword">
+	    UPDATE member
+	    SET password = #{pw}
+	    WHERE id = #{id}
+	</update>
+
+</mapper>

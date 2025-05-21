@@ -22,4 +22,10 @@
 		    HAVING MAX(logindate) &lt; #{tenMinutesAgo}
 		  )
 	</update>
+	
+	<update id="updateActiveStatus">
+	    UPDATE member
+	    SET active = #{active}
+	    WHERE id = #{id}
+	</update>
 </mapper>
